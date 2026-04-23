@@ -1,0 +1,12 @@
+{
+  "Common": {
+    "appName": "nextjs_boilerplate"
+  },
+  "Home": {
+    "ready": "Project ready!",
+    "startBuilding": "You may now add components and start building.",
+    "buttonAdded": "We've already added the button component for you.",
+    "button": "Button",
+    "toggleDarkMode": "Press {key} to toggle dark mode"
+  }
+}

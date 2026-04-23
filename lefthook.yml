@@ -1,0 +1,16 @@
+# Validate content before committing
+pre-commit:
+  jobs:
+    - name: lint
+      run: pnpm exec eslint {staged_files}
+      glob:
+        - '**/*.js'
+        - '**/*.jsx'
+        - '**/*.ts'
+        - '**/*.tsx'
+      stage_fixed: true
+    - name: typecheck
+      run: pnpm typecheck
+    - name: knip
+      glob: '*'
+      run: pnpm run check:deps
