@@ -35,8 +35,16 @@ export default defineConfig({
     reuseExistingServer: !process.env.CI,
     gracefulShutdown: { signal: "SIGTERM", timeout: 2 * 1000 },
     env: {
-      NEXT_PUBLIC_API_URL:
-        process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3001",
+      NEXT_PUBLIC_REST_URL:
+        process.env.NEXT_PUBLIC_REST_URL ?? "http://localhost:3001",
+      NEXT_PUBLIC_GRAPHQL_URL:
+        process.env.NEXT_PUBLIC_GRAPHQL_URL ?? "http://localhost:3001/graphql",
+      NEXT_PUBLIC_GRAPHQL_WS_URL:
+        process.env.NEXT_PUBLIC_GRAPHQL_WS_URL ?? "ws://localhost:3001/graphql",
+      NEXT_PUBLIC_AUTH_URL:
+        process.env.NEXT_PUBLIC_AUTH_URL ?? "http://localhost:3001/api/auth",
+      NEXT_PUBLIC_APP_NAME:
+        process.env.NEXT_PUBLIC_APP_NAME ?? "Spend Dash",
       PORT,
     },
   },

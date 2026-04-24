@@ -1,10 +1,8 @@
 import type { CodegenConfig } from "@graphql-codegen/cli"
 
-const apiUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3001"
-
 const config: CodegenConfig = {
   overwrite: true,
-  schema: `${apiUrl}/graphql`,
+  schema: process.env.NEXT_PUBLIC_GRAPHQL_URL ?? "http://localhost:3001/graphql",
   documents: [
     "src/app/**/*.{ts,tsx}",
     "src/components/**/*.{ts,tsx}",
