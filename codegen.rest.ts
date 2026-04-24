@@ -1,9 +1,7 @@
 import openapiTS, { astToString, COMMENT_HEADER } from "openapi-typescript"
 import { writeFileSync, mkdirSync } from "fs"
 
-const restUrl = process.env.NEXT_PUBLIC_REST_URL ?? "http://localhost:3001"
-const specPath = process.env.OPENAPI_SPEC_PATH ?? "/openapi.json"
-const specUrl = `${restUrl}${specPath}`
+const specUrl = process.env.OPENAPI_SPEC_URL ?? "http://localhost:3001/openapi.json"
 const outDir = "src/lib/rest"
 const outFile = `${outDir}/api.ts`
 
