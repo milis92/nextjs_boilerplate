@@ -64,13 +64,14 @@ src/
   app/              # Next.js App Router — pages, layouts, providers
   components/       # Shared UI components (shadcn/ui based)
   lib/              # Core wiring: auth client, GraphQL client, env
-    gql/            # Auto-generated GraphQL types (do not edit manually)
   i18n/             # Internationalisation — routing config, request config, navigation helpers
     locales/        # Translation message files (en.json, de.json)
   types/            # Global TypeScript declarations
   utils/            # App config and utility helpers
 tests/              # Playwright e2e tests
 ```
+
+> `src/lib/gql/` and `src/lib/rest/` are generated at runtime and gitignored — run the relevant codegen scripts before typechecking on a fresh clone.
 
 ---
 
@@ -119,7 +120,7 @@ pnpm codegen        # one-shot against the running backend
 pnpm codegen:watch  # re-runs on file save
 ```
 
-Generated files land in `src/lib/gql/` — commit them, do not edit them by hand.
+Generated files land in `src/lib/gql/` — they are gitignored, do not edit them by hand. Run `pnpm codegen:rest` to regenerate the REST client types (`src/lib/rest/`) on a fresh clone.
 
 ### Adding a locale or translation key
 
