@@ -12,6 +12,8 @@
     "typecheck": "tsc --noEmit",
     "codegen": "graphql-codegen",
     "codegen:watch": "graphql-codegen --watch",
+    "codegen:rest": "tsx codegen.rest.ts",
+    "codegen:rest:watch": "tsx watch codegen.rest.ts",
     "test": "vitest run --passWithNoTests",
     "test:watch": "vitest",
     "test:e2e": "playwright test",
