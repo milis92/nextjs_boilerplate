@@ -60,15 +60,16 @@ Open [http://localhost:3000](http://localhost:3000). You should see the "Project
 ## Project Structure
 
 ```
-app/              # Next.js App Router — pages, layouts, providers
-components/       # Shared UI components (shadcn/ui based)
-lib/              # Core wiring: auth client, GraphQL client, env
-  gql/            # Auto-generated GraphQL types (do not edit manually)
-i18n/             # Internationalisation — routing config, request config, navigation helpers
-  locales/        # Translation message files (en.json, de.json)
-types/            # Global TypeScript declarations
-utils/            # App config and utility helpers
-tests/            # Playwright e2e tests
+src/
+  app/              # Next.js App Router — pages, layouts, providers
+  components/       # Shared UI components (shadcn/ui based)
+  lib/              # Core wiring: auth client, GraphQL client, env
+    gql/            # Auto-generated GraphQL types (do not edit manually)
+  i18n/             # Internationalisation — routing config, request config, navigation helpers
+    locales/        # Translation message files (en.json, de.json)
+  types/            # Global TypeScript declarations
+  utils/            # App config and utility helpers
+tests/              # Playwright e2e tests
 ```
 
 ---
@@ -79,10 +80,12 @@ Copy `.env.example` to `.env.local` and set the variables below. All are validat
 
 | Variable | Required | Default | Description |
 |---|---|---|---|
-| `NEXT_PUBLIC_API_URL` | Yes | — | Base URL of the backend. Auth (`/api/auth`) and GraphQL (`/graphql`) are derived from this. |
+| `NEXT_PUBLIC_REST_URL` | Yes | — | Base URL of the backend REST API. |
+| `NEXT_PUBLIC_GRAPHQL_URL` | Yes | — | HTTP URL for GraphQL queries and mutations. |
+| `NEXT_PUBLIC_GRAPHQL_WS_URL` | Yes | — | WebSocket URL for GraphQL subscriptions (`ws://` in dev, `wss://` in production). |
+| `NEXT_PUBLIC_AUTH_URL` | Yes | — | Base URL of the auth server. |
+| `NEXT_PUBLIC_APP_NAME` | Yes | — | Application name used in metadata and translations. |
 | `NEXT_PUBLIC_APP_URL` | No | — | Public URL of this app. Leave unset in local dev; set in production deployments. |
-
-The WebSocket URL for GraphQL subscriptions is derived automatically from `NEXT_PUBLIC_API_URL` (`http` → `ws`, `https` → `wss`).
 
 ---
 
@@ -116,7 +119,7 @@ pnpm codegen        # one-shot against the running backend
 pnpm codegen:watch  # re-runs on file save
 ```
 
-Generated files land in `lib/gql/` — commit them, do not edit them by hand.
+Generated files land in `src/lib/gql/` — commit them, do not edit them by hand.
 
 ### Adding a locale or translation key
 

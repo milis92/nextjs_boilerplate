@@ -16,8 +16,6 @@ const config: KnipConfig = {
     "better-auth",
     "openapi-fetch",
     "lucide-react",
-    "openapi-typescript",
-    "tsx",
   ],
   compilers: {
     css: (text: string) => [...text.matchAll(/(?<=@)import[^;]+/g)].join("\n"),
