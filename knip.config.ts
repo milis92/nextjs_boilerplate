@@ -11,7 +11,6 @@ const config: KnipConfig = {
     "src/utils/app-config.ts",
     "src/i18n/I18n.ts",
     "src/i18n/I18nNavigation.ts",
-    "src/i18n/I18nRouting.ts",
   ],
   ignoreDependencies: [
     "@eslint/eslintrc",
