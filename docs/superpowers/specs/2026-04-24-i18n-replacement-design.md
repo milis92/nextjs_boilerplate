@@ -45,11 +45,14 @@ src/app/[locale]/
 └── page.tsx              # moved from src/app/page.tsx
 ```
 
+**Renamed:**
+- `src/types/i18n.ts` → `src/types/I18n.ts` — update import paths to point at `src/i18n/`; augmentation pattern stays the same (`declare module "next-intl" { interface AppConfig }`)
+
 **Modified:**
 - `src/utils/app-config.ts` — remove `cookieName`, add `localePrefix: 'as-needed'`
-- `src/types/I18n.ts` — rename from `i18n.ts`, switch augmentation pattern
 - `next.config.ts` — update plugin path to `./src/i18n/I18n.ts`
-- `knip.config.ts` — update any path references from `src/lib/i18n*` / `src/locales/` to `src/i18n/`
+- `knip.config.ts` — update ignored i18n file path references (`src/lib/i18n*`, `src/types/i18n.ts`) to reflect the new `src/i18n/` location
+- `tests/home.e2e.ts` — second test sets a `NEXT_LOCALE` cookie; replace with URL-based navigation (`page.goto('/de/')`) since locale is now in the URL
 
 ### File contents
 
@@ -100,18 +103,18 @@ import { routing } from './i18n/I18nRouting'
 export default createMiddleware(routing)
 
 export const config = {
-  matcher: ['/((?!_next|.*\\..*).*)'],
+  matcher: ['/((?!_next|api|.*\\..*).*)'],
 }
 ```
 
-**`src/types/I18n.ts`** (renamed from `i18n.ts`, new augmentation pattern)
+**`src/types/I18n.ts`** (renamed from `i18n.ts`; augmentation pattern unchanged, only import paths updated)
 ```ts
-import type { routing } from '@/i18n/I18nRouting'
 import type messages from '@/i18n/locales/en.json'
+import type { Locale } from '@/utils/app-config'
 
-declare global {
-  interface IntlMessages {
-    Locale: (typeof routing.locales)[number]
+declare module 'next-intl' {
+  interface AppConfig {
+    Locale: Locale
     Messages: typeof messages
   }
 }
@@ -134,6 +137,7 @@ Replaces `src/app/layout.tsx` entirely (the old root layout is deleted). In Next
 - validates locale with `hasLocale`; calls `notFound()` if invalid
 - adds `generateStaticParams()` to pre-render all locales at build time
 - swaps `getLocale()` + `getMessages()` calls for the locale received from params
+- updates `globals.css` import from `./globals.css` to `../globals.css` (file is now one directory deeper)
 
 **`src/app/[locale]/page.tsx`**
 
