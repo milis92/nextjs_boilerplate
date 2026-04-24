@@ -5,6 +5,6 @@ import type { paths } from "@/lib/rest/api"
 import { Env } from "@/lib/env"
 
 export const restClient = createClient<paths>({
-  baseUrl: Env.NEXT_PUBLIC_API_URL,
+  baseUrl: Env.NEXT_PUBLIC_REST_URL,
   credentials: "include",
 })

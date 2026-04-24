@@ -1,12 +1,11 @@
 import type { NextConfig } from "next"
 import createNextIntlPlugin from "next-intl/plugin"
-import "./src/lib/env"
+import { Env } from "@/lib/env"
 
 const isProd = process.env.NODE_ENV === "production"
 
-const apiUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3001"
-const apiOrigin = new URL(apiUrl).origin
-const wsOrigin = apiOrigin.replace(/^http/, "ws")
+const apiOrigin = new URL(Env.NEXT_PUBLIC_REST_URL).origin
+const wsOrigin = new URL(Env.NEXT_PUBLIC_GRAPHQL_WS_URL).origin
 
 // Next.js dev (Turbopack/HMR) requires `unsafe-inline` and `unsafe-eval`.
 // Production drops `unsafe-eval`; further nonce-based hardening is a TODO

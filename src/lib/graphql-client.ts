@@ -10,20 +10,12 @@ import {
 import { createClient as createWSClient } from "graphql-ws"
 import { Env } from "@/lib/env"
 
-const httpUrl = `${Env.NEXT_PUBLIC_API_URL}/graphql`
-
-function toWsUrl(url: string): string {
-  const parsed = new URL(url)
-  parsed.protocol = parsed.protocol === "https:" ? "wss:" : "ws:"
-  return parsed.toString()
-}
-
 // null during SSR/RSC; subscriptions are only constructed on the client.
 const wsClient =
   typeof window === "undefined"
     ? null
     : createWSClient({
-        url: toWsUrl(httpUrl),
+        url: Env.NEXT_PUBLIC_GRAPHQL_WS_URL,
         connectionParams: () => ({}),
         on: {
           error: (err) =>
@@ -52,7 +44,7 @@ if (wsClient) {
 }
 
 export const graphqlClient = new Client({
-  url: httpUrl,
+  url: Env.NEXT_PUBLIC_GRAPHQL_URL,
   fetchOptions: { credentials: "include" },
   exchanges,
 })
