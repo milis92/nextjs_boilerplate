@@ -16,6 +16,8 @@ const config: KnipConfig = {
     "vitest-browser-react", // Used by future component tests (no test yet)
     "better-auth", // Used by lib/auth-client.ts (ignored file)
     "lucide-react",
+    "openapi-fetch", // Typed REST client, used by future API integration
+    "openapi-typescript", // OpenAPI codegen, used by future API generation
   ],
   compilers: {
     css: (text: string) => [...text.matchAll(/(?<=@)import[^;]+/g)].join("\n"),
