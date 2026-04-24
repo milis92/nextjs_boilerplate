@@ -1,8 +1,11 @@
+import { Env } from "@/lib/env"
+
 export const AppConfig = {
-  name: "nextjs_boilerplate",
+  name: Env.NEXT_PUBLIC_APP_NAME,
   i18n: {
     locales: ["en", "de"],
     defaultLocale: "en",
+    localePrefix: "as-needed",
     cookieName: "NEXT_LOCALE",
   },
 } as const
