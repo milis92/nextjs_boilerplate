@@ -6,13 +6,13 @@ const config: CodegenConfig = {
   overwrite: true,
   schema: `${apiUrl}/graphql`,
   documents: [
-    "app/**/*.{ts,tsx}",
-    "components/**/*.{ts,tsx}",
-    "lib/**/*.{ts,tsx}",
+    "src/app/**/*.{ts,tsx}",
+    "src/components/**/*.{ts,tsx}",
+    "src/lib/**/*.{ts,tsx}",
   ],
   ignoreNoDocuments: true,
   generates: {
-    "./lib/gql/": {
+    "./src/lib/gql/": {
       preset: "client",
       config: {
         useTypeImports: true,

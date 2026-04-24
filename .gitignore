@@ -38,7 +38,7 @@ pnpm-debug.log*
 next-env.d.ts
 
 # generated graphql client
-/lib/gql/
+/src/lib/gql/
 
 # generated REST client
-/lib/rest/
+/src/lib/rest/

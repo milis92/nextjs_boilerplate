@@ -4,7 +4,7 @@ import { writeFileSync, mkdirSync } from "fs"
 const apiUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3001"
 const specPath = process.env.OPENAPI_SPEC_PATH ?? "/openapi.json"
 const specUrl = `${apiUrl}${specPath}`
-const outDir = "lib/rest"
+const outDir = "src/lib/rest"
 const outFile = `${outDir}/api.ts`
 
 mkdirSync(outDir, { recursive: true })

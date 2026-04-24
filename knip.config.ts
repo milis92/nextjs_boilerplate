@@ -3,12 +3,12 @@ import type { KnipConfig } from "knip"
 const config: KnipConfig = {
   // Files to exclude from Knip analysis
   ignore: [
-    "components/ui/**", // shadcn-generated, manage via shadcn CLI
-    "lib/auth-client.ts",
-    "lib/i18n.ts",
-    "lib/i18n-actions.ts",
-    "types/i18n.ts",
-    "utils/app-config.ts",
+    "src/components/ui/**", // shadcn-generated, manage via shadcn CLI
+    "src/lib/auth-client.ts",
+    "src/lib/i18n.ts",
+    "src/lib/i18n-actions.ts",
+    "src/types/i18n.ts",
+    "src/utils/app-config.ts",
   ],
   // Dependencies to ignore during analysis
   ignoreDependencies: [
