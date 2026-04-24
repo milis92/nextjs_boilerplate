@@ -2,7 +2,7 @@ import type { NextConfig } from "next"
 import createNextIntlPlugin from "next-intl/plugin"
 import { Env } from "@/lib/env"
 
-const isProd = process.env.NODE_ENV === "production"
+const isProd = Env.NODE_ENV === "production"
 
 const apiOrigin = new URL(Env.NEXT_PUBLIC_REST_URL).origin
 const wsOrigin = new URL(Env.NEXT_PUBLIC_GRAPHQL_WS_URL).origin

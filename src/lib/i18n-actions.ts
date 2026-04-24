@@ -2,6 +2,7 @@
 
 import { cookies } from "next/headers"
 import { AppConfig, isLocale, type Locale } from "@/utils/app-config"
+import { Env } from "@/lib/env"
 
 export async function setLocale(locale: Locale) {
   if (!isLocale(locale)) {
@@ -12,6 +13,6 @@ export async function setLocale(locale: Locale) {
     path: "/",
     maxAge: 60 * 60 * 24 * 365,
     sameSite: "lax",
-    secure: process.env.NODE_ENV === "production",
+    secure: Env.NODE_ENV === "production",
   })
 }
