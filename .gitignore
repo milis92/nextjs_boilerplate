@@ -39,3 +39,6 @@ next-env.d.ts
 
 # generated graphql client
 /lib/gql/
+
+# generated REST client
+/lib/rest/
