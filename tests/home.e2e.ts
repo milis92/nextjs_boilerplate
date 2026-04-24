@@ -8,14 +8,8 @@ test("home page renders localized heading in English", async ({ page }) => {
   await expect(page.getByRole("button", { name: /button/i })).toBeVisible()
 })
 
-test("home page renders German heading when NEXT_LOCALE=de", async ({
-  page,
-  context,
-}) => {
-  await context.addCookies([
-    { name: "NEXT_LOCALE", value: "de", domain: "localhost", path: "/" },
-  ])
-  await page.goto("/")
+test("home page renders German heading at /de", async ({ page }) => {
+  await page.goto("/de")
   await expect(
     page.getByRole("heading", { name: /projekt bereit/i })
   ).toBeVisible()
