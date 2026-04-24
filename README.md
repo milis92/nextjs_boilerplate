@@ -71,7 +71,7 @@ src/
 tests/              # Playwright e2e tests
 ```
 
-> `src/lib/gql/` and `src/lib/rest/` are generated at runtime and gitignored — run the relevant codegen scripts before typechecking on a fresh clone.
+> `src/lib/gql/` and `src/lib/rest/` are gitignored generated output — run `pnpm codegen` and `pnpm codegen:rest` before typechecking on a fresh clone.
 
 ---
 
