@@ -16,7 +16,6 @@ const config: KnipConfig = {
     "vitest-browser-react", // Used by future component tests (no test yet)
     "better-auth", // Used by lib/auth-client.ts (ignored file)
     "lucide-react",
-    "openapi-fetch", // Runtime REST client wrapper, imported by lib/rest-client.ts (Task 5)
     "openapi-typescript", // OpenAPI codegen CLI, invoked by codegen:rest script (Task 4)
     "tsx", // Script runner for codegen.rest.ts, wired up in codegen:rest script (Task 4)
   ],
