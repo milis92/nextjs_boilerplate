@@ -8,7 +8,7 @@ export default defineConfig({
   plugins: [react(), tsconfigPaths()],
   test: {
     coverage: {
-      include: ["src/app/**/*", "src/components/**/*", "src/lib/**/*", "src/hooks/**/*"],
+      include: ["src/app/**/*", "src/components/**/*", "src/lib/**/*"],
       exclude: ["**/*.stories.{js,jsx,ts,tsx}"],
     },
     projects: [
@@ -17,7 +17,7 @@ export default defineConfig({
         test: {
           name: "unit",
           include: ["src/lib/**/*.test.{js,ts}", "src/app/**/*.test.{js,ts}"],
-          exclude: ["src/hooks/**/*.test.ts"],
+          exclude: [],
           environment: "node",
         },
       },
@@ -25,7 +25,7 @@ export default defineConfig({
         extends: true,
         test: {
           name: "ui",
-          include: ["src/**/*.test.tsx", "src/hooks/**/*.test.ts"],
+          include: ["src/**/*.test.tsx"],
           browser: {
             enabled: true,
             headless: true,

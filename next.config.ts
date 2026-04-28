@@ -63,6 +63,6 @@ const baseConfig: NextConfig = {
   },
 }
 
-const nextConfig = createNextIntlPlugin("./src/i18n/I18n.ts")(baseConfig)
+const nextConfig = createNextIntlPlugin("./src/i18n/i18n.ts")(baseConfig)
 
 export default nextConfig

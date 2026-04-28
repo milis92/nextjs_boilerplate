@@ -1,7 +1,5 @@
-"use client"
-
 import createClient from "openapi-fetch"
-import type { paths } from "@/lib/rest/api"
+import type { paths } from "@/lib/rest/generated/api"
 import { Env } from "@/lib/env"
 
 export const restClient = createClient<paths>({

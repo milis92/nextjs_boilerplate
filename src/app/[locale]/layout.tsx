@@ -3,10 +3,10 @@ import { getMessages, setRequestLocale } from "next-intl/server"
 import { notFound } from "next/navigation"
 import { Geist, Geist_Mono, Roboto } from "next/font/google"
 import { NextIntlClientProvider } from "next-intl"
-import "../globals.css"
-import { Providers } from "@/app/providers"
-import { cn } from "@/utils/cn"
-import { routing } from "@/i18n/I18nRouting"
+import "@/styles/globals.css"
+import { Providers } from "@/components/providers"
+import { cn } from "@/components/ui/cn"
+import { routing } from "@/i18n/i18n-routing"
 
 const robotoHeading = Roboto({ subsets: ["latin"], variable: "--font-heading" })
 const geist = Geist({ subsets: ["latin"], variable: "--font-sans" })

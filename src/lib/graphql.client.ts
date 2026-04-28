@@ -1,16 +1,7 @@
-"use client"
-
-import {
-  Client,
-  cacheExchange,
-  fetchExchange,
-  subscriptionExchange,
-  type Exchange,
-} from "urql"
+import { Client, cacheExchange, fetchExchange, subscriptionExchange } from "urql"
 import { createClient as createWSClient } from "graphql-ws"
 import { Env } from "@/lib/env"
 
-// null during SSR/RSC; subscriptions are only constructed on the client.
 const wsClient =
   typeof window === "undefined"
     ? null
@@ -25,26 +16,26 @@ const wsClient =
         },
       })
 
-const exchanges: Exchange[] = [cacheExchange, fetchExchange]
-
-if (wsClient) {
-  const client = wsClient
-  exchanges.push(
-    subscriptionExchange({
-      forwardSubscription: (request) => ({
-        subscribe: (sink) => ({
-          unsubscribe: client.subscribe(
-            { ...request, query: request.query ?? "" },
-            sink
-          ),
-        }),
-      }),
-    })
-  )
-}
-
 export const graphqlClient = new Client({
   url: Env.NEXT_PUBLIC_GRAPHQL_URL,
   fetchOptions: { credentials: "include" },
-  exchanges,
+  exchanges: [
+    cacheExchange,
+    fetchExchange,
+    ...(wsClient
+      ? [
+          subscriptionExchange({
+            forwardSubscription(request) {
+              const input = { ...request, query: request.query ?? "" }
+              return {
+                subscribe(sink) {
+                  const unsubscribe = wsClient.subscribe(input, sink)
+                  return { unsubscribe }
+                },
+              }
+            },
+          }),
+        ]
+      : []),
+  ],
 })

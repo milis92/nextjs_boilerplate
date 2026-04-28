@@ -1,5 +1,5 @@
 import { defineRouting } from "next-intl/routing"
-import { AppConfig } from "@/utils/app-config"
+import { AppConfig } from "@/app.config"
 
 export const routing = defineRouting({
   locales: AppConfig.i18n.locales,

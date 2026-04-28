@@ -66,12 +66,12 @@ src/
   lib/              # Core wiring: auth client, GraphQL client, env
   i18n/             # Internationalisation — routing config, request config, navigation helpers
     locales/        # Translation message files (en.json, de.json)
-  types/            # Global TypeScript declarations
-  utils/            # App config and utility helpers
+  styles/           # Global CSS
+  app.config.ts     # App-wide configuration (name, supported locales)
 tests/              # Playwright e2e tests
 ```
 
-> `src/lib/gql/` and `src/lib/rest/` are gitignored generated output — run `pnpm codegen` and `pnpm codegen:rest` before typechecking on a fresh clone.
+> `src/lib/gql/` and `src/lib/rest/generated/` are gitignored generated output — run `pnpm graphql:generate` and `pnpm rest:generate` before typechecking on a fresh clone.
 
 ---
 
@@ -100,8 +100,9 @@ Copy `.env.example` to `.env.local` and set the variables below. All are validat
 | `pnpm typecheck`     | TypeScript type check (no emit)                        |
 | `pnpm lint`          | ESLint                                                 |
 | `pnpm format`        | Prettier (writes in place)                             |
-| `pnpm codegen`       | Generate GraphQL types from the running backend schema |
-| `pnpm codegen:watch` | Watch mode for GraphQL codegen                         |
+| `pnpm graphql:generate`       | Generate GraphQL types from the running backend schema |
+| `pnpm graphql:generate:watch` | Watch mode for GraphQL codegen                         |
+| `pnpm rest:generate`          | Generate REST client types from the OpenAPI schema     |
 | `pnpm test`          | Vitest unit/component tests (CI mode)                  |
 | `pnpm test:watch`    | Vitest in watch mode                                   |
 | `pnpm test:e2e`      | Playwright e2e tests                                   |
@@ -113,22 +114,22 @@ Copy `.env.example` to `.env.local` and set the variables below. All are validat
 
 ### GraphQL
 
-Write queries and mutations directly in `.ts`/`.tsx` files using the `graphql()` helper from `@/lib/gql`. Run codegen to generate fully-typed hooks and documents:
+Write queries and mutations directly in `.ts`/`.tsx` files using the `graphql()` helper from `@/lib/gql`. Run the generator to produce fully-typed hooks and documents:
 
 ```sh
-pnpm codegen        # one-shot against the running backend
-pnpm codegen:watch  # re-runs on file save
+pnpm graphql:generate        # one-shot against the running backend
+pnpm graphql:generate:watch  # re-runs on file save
 ```
 
-Generated files land in `src/lib/gql/` — they are gitignored, do not edit them by hand. Run `pnpm codegen:rest` to regenerate the REST client types (`src/lib/rest/`) on a fresh clone.
+Generated files land in `src/lib/gql/` — they are gitignored, do not edit them by hand. Run `pnpm rest:generate` to regenerate the REST client types (`src/lib/rest/generated/`) on a fresh clone.
 
 ### Adding a locale or translation key
 
 1. Add the new key to `src/i18n/locales/en.json` (and any other locale files).
-2. Run `pnpm typecheck` — `src/types/I18n.ts` provides the type augmentation that makes `useTranslations` key-safe.
+2. Run `pnpm typecheck` — `src/i18n/next-intl.d.ts` provides the type augmentation that makes `useTranslations` key-safe.
 3. Use the key in a component via `const t = useTranslations('Namespace')`.
 
-To add a new locale: add the locale code to `AppConfig.i18n.locales` in `src/utils/app-config.ts`, create `src/i18n/locales/<code>.json`, and add a translation file.
+To add a new locale: add the locale code to `AppConfig.i18n.locales` in `src/app.config.ts`, create `src/i18n/locales/<code>.json`, and add a translation file.
 
 ---
 
