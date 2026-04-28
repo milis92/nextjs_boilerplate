@@ -46,6 +46,9 @@ const securityHeaders = [
 ]
 
 const baseConfig: NextConfig = {
+  logging: {
+    browserToTerminal: "warn",
+  },
   devIndicators: {
     position: "bottom-right",
   },

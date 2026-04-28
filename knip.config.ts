@@ -2,6 +2,7 @@ import type { KnipConfig } from "knip"
 
 const config: KnipConfig = {
   ignore: [
+    ".claude/**",
     "src/components/ui/**",
     "src/lib/auth.client.ts",
     "src/lib/rest.client.ts",
