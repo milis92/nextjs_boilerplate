@@ -5,36 +5,36 @@ description: Audit feature code against convention rules, reporting violations w
 
 # review-conventions
 
-Audits existing code against the project's convention rules. Reports every `!IMPORTANT` and `NEVER` violation with `file:line` references.
+Audits existing code against the project's convention rules. Reports every imperative constraint violation with `file:line` references.
 
 ## Inputs
 
-- `feature` — (optional) feature name or path to audit (e.g. `widgets`, `src/components/WidgetCard.tsx`). If omitted, audits all files in `git diff --name-only HEAD~1`.
+- `feature` — (optional) feature name or path to audit (e.g. `widgets`, `src/components/WidgetCard.tsx`). If omitted, audits all files changed since the branch diverged from `origin/main`.
 
 ## Rule-to-path Mapping
 
-| Rule file | Applies to paths |
-|---|---|
-| `.claude/rules/architecture.md` | `src/**/*` |
-| `.claude/rules/code-style.md` | `src/**/*.ts`, `src/**/*.tsx` |
-| `.claude/rules/components.md` | `src/components/**/*` |
-| `.claude/rules/data-fetching/rest.md` | `src/**/*.ts`, `src/**/*.tsx` |
-| `.claude/rules/data-fetching/graphql.md` | `src/**/*.ts`, `src/**/*.tsx` |
-| `.claude/rules/i18n.md` | `src/**/*.tsx` |
-| `.claude/rules/auth.md` | `src/**/*.ts`, `src/**/*.tsx` |
-| `.claude/rules/testing/unit-testing.md` | `src/**/*.test.ts`, `src/**/*.test.tsx` |
-| `.claude/rules/testing/e2e-testing.md` | `tests/**/*.spec.ts` |
+| Rule file                                | Applies to paths                                               |
+| ---------------------------------------- | -------------------------------------------------------------- |
+| `.claude/rules/architecture.md`          | `src/app/**/*`                                                 |
+| `.claude/rules/code-style.md`            | `src/**/*.ts`, `src/**/*.tsx`                                  |
+| `.claude/rules/features/components.md`   | `src/app/**/_module/components/**`                             |
+| `.claude/rules/features/actions.md`      | `src/app/**/_module/actions/**`                                |
+| `.claude/rules/features/hooks.md`        | `src/app/**/_module/hooks/**`                                  |
+| `.claude/rules/features/data-loading.md` | `src/app/**/_module/hooks/**`, `src/app/**/_module/actions/**` |
+| `.claude/rules/features/layout.md`       | `src/app/**/layout.tsx`                                        |
+| `.claude/rules/features/page.md`         | `src/app/**/page.tsx`                                          |
+| `.claude/rules/features/error.md`        | `src/app/**/error.tsx`, `src/app/**/global-error.tsx`          |
 
 ## Procedure
 
 1. **Identify files to audit:**
    - If a path/feature is provided: find all source files under that path
-   - If not provided: run `git diff --name-only HEAD~1` to get recently changed files
+   - If not provided: run `git diff --name-only "$(git merge-base HEAD origin/main 2>/dev/null || git rev-parse HEAD~1)"` to get changed files. If `origin/main` is unavailable (fresh clone, offline) the command falls back to `HEAD~1`.
 
 2. **For each file:**
    - Match the file path against the rule-to-path mapping above
-   - Read each matching rule file
-   - Extract every line containing `!IMPORTANT` or `NEVER`
+   - Read each matching rule file in full
+   - Identify all imperative constraints — bullets or sentences that **begin with** `NEVER`, `ALWAYS`, `Never`, or `Always`, or that contain `must` as a standalone word. **Exclude** content inside fenced code blocks and table example columns.
    - Read the source file
    - Check each constraint against the actual code
 
@@ -46,13 +46,13 @@ Audits existing code against the project's convention rules. Reports every `!IMP
 ## Example Output
 
 ```
-Checking src/components/WidgetCard.tsx against components.md...
-  PASS: components.md — "NEVER use string concatenation for class names — use cn()"
-  VIOLATION: components.md — "NEVER inline fetch or API calls inside a component file" — WidgetCard.tsx:22
+Checking src/app/[locale]/(auth)/_module/components/login-form.tsx against features/components.md...
+  PASS: features/components.md — "NEVER fetch data inside a component with raw fetch()"
+  VIOLATION: features/components.md — "NEVER export default from component files" — login-form.tsx:1
 
-Checking src/app/[locale]/widgets/page.tsx against i18n.md...
-  PASS: i18n.md — "NEVER hardcode user-facing strings — put them in locales/*.json"
-  PASS: i18n.md — "NEVER import navigation utilities from next/navigation or next/link"
+Checking src/app/[locale]/(auth)/login/page.tsx against features/page.md...
+  PASS: features/page.md — "NEVER add conditional rendering or logic in page.tsx"
+  PASS: features/page.md — "NEVER call server actions or data fetching functions directly in page.tsx"
 
 Summary: 1 violation found, 4 constraints checked
 ```

@@ -9,12 +9,14 @@ paths:
 Use this matrix to decide where data loading and mutation code lives:
 
 | Operation        | Mechanism                    | Client              |
-|------------------|------------------------------|---------------------|
+| ---------------- | ---------------------------- | ------------------- |
 | GraphQL query    | hook (`useQuery`)            | urql                |
 | GraphQL mutation | hook (`useMutation`)         | urql                |
-| REST read        | hook (`restClient`)          | `@/lib/rest.client` |
+| REST read        | hook (wrapping `restClient`) | `@/lib/rest.client` |
 | REST mutation    | server action (`restClient`) | `@/lib/rest.client` |
 | Auth / session   | hook (`authClient`)          | `@/lib/auth.client` |
+
+REST read hooks have no shared name — each feature writes its own (e.g. `useUsers`, `useProfile`). The hook wraps `restClient` and returns typed data plus loading/error state.
 
 **Hooks** (`_module/hooks/`) are for client-side, reactive data — they run in the browser and re-render on state change.
 

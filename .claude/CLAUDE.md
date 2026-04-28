@@ -51,11 +51,12 @@ pnpm check:deps             # Detect unused dependencies (knip)
 
 1. Ensure the NestJS backend is running (see Full-Stack Startup below)
 2. Run the relevant generate command:
-    - REST endpoint: `pnpm rest:generate`
-    - GraphQL operation: `pnpm graphql:generate`
+   - REST endpoint: `pnpm rest:generate`
+   - GraphQL operation: `pnpm graphql:generate`
 3. Only then write the consuming code
 
 Never call backend APIs with raw `fetch()`. Always use the typed generated clients:
+
 - REST: `restClient` from `@/lib/rest.client`
 - GraphQL: urql hooks (`useQuery`, `useMutation`, `useSubscription`) with typed documents from `@/lib/gql`
 
@@ -76,6 +77,7 @@ pnpm dev                    # Frontend starts on http://localhost:3000
 ## Backend Contract
 
 The NestJS backend exposes:
+
 - **REST API**: `http://localhost:3001/api` (OpenAPI schema at `http://localhost:3001/api/docs`)
 - **GraphQL**: `http://localhost:3001/graphql`
 - **Auth**: `http://localhost:3001/api/auth`
