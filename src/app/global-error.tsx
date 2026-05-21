@@ -4,11 +4,11 @@ import { useEffect } from "react"
 
 export default function GlobalError({
   error,
-  reset,
+  unstable_retry,
 }: {
   error: Error & { digest?: string }
-  reset: () => void
-}) {
+  unstable_retry: () => void
+})  {
   useEffect(() => {
     if (process.env.NODE_ENV === "development") {
       console.error(error)
@@ -38,7 +38,7 @@ export default function GlobalError({
           An unexpected error occurred.
         </p>
         <button
-          onClick={reset}
+          onClick={unstable_retry}
           style={{
             padding: "0.5rem 1rem",
             borderRadius: "0.375rem",
