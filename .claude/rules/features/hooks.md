@@ -1,42 +1,35 @@
 ---
 paths:
-  - "src/app/**/_hooks/**"
-  - "src/hooks/**"
+  - "src/app/**/_hooks/**/*.{ts,tsx}"
+  - "src/hooks/**/*.{ts,tsx}"
 ---
 
-## Feature Hooks
+# Feature Hooks
 
-Hooks in `_hooks/` are private to their feature — never imported by other features.
+Place custom hooks in `_hooks/` directories — never inline them in pages or layouts.
 
-### Co-location placement
+## Co-location placement
 
-Hooks follow the same escalation rule as components:
+Place hook files at the lowest level that covers all consumers:
 
-| Level         | Location          | When to use                           |
-| ------------- | ----------------- | ------------------------------------- |
-| Route-private | `[route]/_hooks/` | Used by exactly one route             |
-| Group-shared  | `(group)/_hooks/` | Used by 2+ routes in the same feature |
-| App-shared    | `src/hooks/`      | Used by 2+ feature groups             |
+| Level         | Location          | When to use                             |
+| ------------- | ----------------- | --------------------------------------- |
+| Route-private | `[route]/_hooks/` | Used by exactly one route               |
+| Group-shared  | `(group)/_hooks/` | Used by 2+ routes within the same group |
+| App-shared    | `src/hooks/`      | Used by 2+ route groups                 |
 
-**Starting point:** new hooks always start at route-private.
-**Escalation trigger:** a second consumer.
+Always start new hooks at route-private; escalate when a second consumer appears.
 
-### File naming
+## File naming
 
-- One hook per file
-- File name matches the hook name in kebab-case: `use-session.ts` exports `useSession`
+- Put one hook per file
+- Name the file after the hook in kebab-case: `use-session.ts` exports `useSession`
 
-### Return type
+## Return values
 
-- Always return a typed object, never a positional tuple
-- Good: `return { data, isLoading, error }`
-- Bad: `return [user, loading, error] as const`
+Always return a typed object, never a positional tuple: `return { data, isLoading, error }`
 
-### Anti-patterns
+## Anti-patterns
 
-- NEVER return an untyped object — define an explicit return type interface or let TypeScript infer from typed client results
-- NEVER use raw `fetch()` inside a hook — use `restClient` from `@/lib/rest/client` (REST) or urql hooks (GraphQL); see `data-loading.md`
-- NEVER import from a sibling route's `_hooks/` — escalate instead:
-  - If 2 routes in the same feature need it → move to the feature's `_hooks/`
-  - If 2+ features need it → move to `src/hooks/`
-- NEVER call Next.js server actions inside a hook — see `data-loading.md` for the full decision matrix
+- !IMPORTANT Never re-implement session reads with `getSession` + `useState` — use `useSession` from `@/lib/auth/client` for reactive session state
+- Choose the correct data client per the matrix in `data-loading.md` — never bypass the typed clients

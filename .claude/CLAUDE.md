@@ -8,14 +8,10 @@ This is a Next.js 16.2 frontend boilerplate paired with the [NestJS boilerplate]
 - **UI**: React 19, shadcn/ui, Radix UI, Tailwind CSS 4
 - **Data fetching**: urql (GraphQL), openapi-fetch (REST)
 - **Auth**: better-auth (client)
-- **i18n**: next-intl — translation keys scoped by PascalCase feature namespace (e.g. `useTranslations('AuthLogin')`)
+- **i18n**: next-intl
 - **Testing**: Vitest (unit/component), Playwright (E2E)
 - **Code quality**: TypeScript strict, ESLint, Prettier, lefthook (git hooks), knip (dead code)
 - **Package manager**: pnpm
-
-## Architecture
-
-Feature code is co-located with routes using `_components/`, `_hooks/`, and `_actions/` private folders. See `.claude/rules/architecture.md` for the full directory structure and co-location placement rule.
 
 ## Documentation
 
@@ -43,28 +39,11 @@ pnpm test:e2e               # Playwright E2E tests
 
 # Code Generation (run before consuming new endpoints)
 pnpm rest:generate          # Generate REST types from OpenAPI spec → src/lib/rest/generated/api.ts
-pnpm graphql:generate       # Generate GraphQL types from schema → src/lib/gql/
+pnpm graphql:generate       # Generate GraphQL types from schema → src/lib/graphql/
 
 # Maintenance
 pnpm check:deps             # Detect unused dependencies (knip)
 ```
-
-## Code Generation Workflow
-
-!IMPORTANT: Before writing any code that calls a new REST or GraphQL endpoint:
-
-1. Ensure the NestJS backend is running (see Full-Stack Startup below)
-2. Run the relevant generate command:
-   - REST endpoint: `pnpm rest:generate`
-   - GraphQL operation: `pnpm graphql:generate`
-3. Only then write the consuming code
-
-Never call backend APIs with raw `fetch()`. Always use the typed generated clients:
-
-- REST: `restClient` from `@/lib/rest/client`
-- GraphQL: urql hooks (`useQuery`, `useMutation`, `useSubscription`) with typed documents from `@/lib/gql`
-
-Every `page.tsx` is a thin shell — it imports one component from `./_components/` and renders it. See `.claude/rules/features/page.md`.
 
 ## Full-Stack Startup
 
@@ -80,12 +59,12 @@ pnpm start:dev              # Backend starts on http://localhost:3001
 pnpm dev                    # Frontend starts on http://localhost:3000
 ```
 
-## Backend Contract
+## Code Generation Workflow
 
-The NestJS backend exposes:
+!IMPORTANT: Before writing any code that calls a new REST or GraphQL endpoint:
 
-- **REST API**: `http://localhost:3001/api` (OpenAPI schema at `http://localhost:3001/api/docs`)
-- **GraphQL**: `http://localhost:3001/graphql`
-- **Auth**: `http://localhost:3001/api/auth`
-
-All three are consumed via the clients in `src/lib/` — never call them directly with `fetch`.
+1. Ensure the NestJS backend is running
+2. Run the relevant generate command:
+    - REST endpoint: `pnpm rest:generate`
+    - GraphQL operation: `pnpm graphql:generate`
+3. Only then write the consuming code
