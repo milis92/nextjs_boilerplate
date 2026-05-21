@@ -13,17 +13,17 @@ Audits existing code against the project's convention rules. Reports every imper
 
 ## Rule-to-path Mapping
 
-| Rule file                                | Applies to paths                                               |
-| ---------------------------------------- | -------------------------------------------------------------- |
-| `.claude/rules/architecture.md`          | `src/app/**/*`                                                 |
-| `.claude/rules/code-style.md`            | `src/**/*.ts`, `src/**/*.tsx`                                  |
-| `.claude/rules/features/components.md`   | `src/app/**/_module/components/**`                             |
-| `.claude/rules/features/actions.md`      | `src/app/**/_module/actions/**`                                |
-| `.claude/rules/features/hooks.md`        | `src/app/**/_module/hooks/**`                                  |
-| `.claude/rules/features/data-loading.md` | `src/app/**/_module/hooks/**`, `src/app/**/_module/actions/**` |
-| `.claude/rules/features/layout.md`       | `src/app/**/layout.tsx`                                        |
-| `.claude/rules/features/page.md`         | `src/app/**/page.tsx`                                          |
-| `.claude/rules/features/error.md`        | `src/app/**/error.tsx`, `src/app/**/global-error.tsx`          |
+| Rule file                                | Applies to paths                                      |
+| ---------------------------------------- | ----------------------------------------------------- |
+| `.claude/rules/architecture.md`          | `src/app/**/*`                                        |
+| `.claude/rules/code-style.md`            | `src/**/*.ts`, `src/**/*.tsx`                         |
+| `.claude/rules/features/components.md`   | `src/app/**/_components/**`                           |
+| `.claude/rules/features/actions.md`      | `src/app/**/_actions/**`                              |
+| `.claude/rules/features/hooks.md`        | `src/app/**/_hooks/**`                                |
+| `.claude/rules/features/data-loading.md` | `src/app/**/_hooks/**`, `src/app/**/_actions/**`      |
+| `.claude/rules/features/layout.md`       | `src/app/**/layout.tsx`                               |
+| `.claude/rules/features/page.md`         | `src/app/**/page.tsx`                                 |
+| `.claude/rules/features/error.md`        | `src/app/**/error.tsx`, `src/app/**/global-error.tsx` |
 
 ## Procedure
 
@@ -46,7 +46,7 @@ Audits existing code against the project's convention rules. Reports every imper
 ## Example Output
 
 ```
-Checking src/app/[locale]/(auth)/_module/components/login-form.tsx against features/components.md...
+Checking src/app/[locale]/(auth)/_components/login-form.tsx against features/components.md...
   PASS: features/components.md — "NEVER fetch data inside a component with raw fetch()"
   VIOLATION: features/components.md — "NEVER export default from component files" — login-form.tsx:1
 

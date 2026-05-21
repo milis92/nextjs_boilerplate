@@ -8,10 +8,14 @@ This is a Next.js 16.2 frontend boilerplate paired with the [NestJS boilerplate]
 - **UI**: React 19, shadcn/ui, Radix UI, Tailwind CSS 4
 - **Data fetching**: urql (GraphQL), openapi-fetch (REST)
 - **Auth**: better-auth (client)
-- **i18n**: next-intl
+- **i18n**: next-intl — translation keys scoped by PascalCase feature namespace (e.g. `useTranslations('AuthLogin')`)
 - **Testing**: Vitest (unit/component), Playwright (E2E)
 - **Code quality**: TypeScript strict, ESLint, Prettier, lefthook (git hooks), knip (dead code)
 - **Package manager**: pnpm
+
+## Architecture
+
+Feature code is co-located with routes using `_components/`, `_hooks/`, and `_actions/` private folders. See `.claude/rules/architecture.md` for the full directory structure and co-location placement rule.
 
 ## Documentation
 
@@ -57,8 +61,10 @@ pnpm check:deps             # Detect unused dependencies (knip)
 
 Never call backend APIs with raw `fetch()`. Always use the typed generated clients:
 
-- REST: `restClient` from `@/lib/rest.client`
+- REST: `restClient` from `@/lib/rest/client`
 - GraphQL: urql hooks (`useQuery`, `useMutation`, `useSubscription`) with typed documents from `@/lib/gql`
+
+Every `page.tsx` is a thin shell — it imports one component from `./_components/` and renders it. See `.claude/rules/features/page.md`.
 
 ## Full-Stack Startup
 

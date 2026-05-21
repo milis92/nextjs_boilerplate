@@ -1,11 +1,11 @@
 ---
 paths:
-  - "src/app/**/_module/actions/**"
+  - "src/app/**/_actions/**"
 ---
 
 ## Server Actions
 
-Server actions in `_module/actions/` are the only place feature mutations live.
+Server actions in `_actions/` are the only place feature mutations live.
 
 ### File naming
 
@@ -23,35 +23,43 @@ Every actions file must start with `"use server"`. Every action must:
 Example skeleton:
 
 ```ts
-"use server";
+"use server"
 
-import { z } from "zod";
-import { restClient } from "@/lib/rest.client";
+import { z } from "zod"
+import { restClient } from "@/lib/rest/client"
 
 const loginSchema = z.object({
   email: z.string().email(),
   password: z.string().min(8),
-});
+})
 
 /** Authenticates a user and returns a session token. */
 export async function login(
   input: z.infer<typeof loginSchema>
-): Promise<{ success: true; token: string } | { success: false; error: string }> {
-  const parsed = loginSchema.safeParse(input);
+): Promise<
+  { success: true; token: string } | { success: false; error: string }
+> {
+  const parsed = loginSchema.safeParse(input)
   if (!parsed.success) {
-    return { success: false, error: parsed.error.message };
+    return { success: false, error: parsed.error.message }
   }
-  const { data, error } = await restClient.POST("/auth/login", { body: parsed.data });
+  const { data, error } = await restClient.POST("/auth/login", {
+    body: parsed.data,
+  })
   if (error) {
-    return { success: false, error: String(error) };
+    return { success: false, error: String(error) }
   }
-  return { success: true, token: data.token };
+  return { success: true, token: data.token }
 }
 ```
 
 ### Imports
 
-- Use `restClient` from `@/lib/rest.client` for all backend calls — see `data-loading.md` for the full decision matrix
+Use the appropriate client from the data-loading matrix in `data-loading.md`:
+
+- `restClient` from `@/lib/rest/client` for REST mutations
+- `authClient` from `@/lib/auth/client` for authentication operations
+- Server actions cannot use urql hooks — those are client-only React hooks
 
 ### Anti-patterns
 
@@ -59,3 +67,4 @@ export async function login(
 - NEVER skip Zod validation — always validate before using action arguments
 - NEVER throw raw errors to the client — return `{ success: false, error: string }` instead
 - NEVER return `any` — always type the result
+- NEVER call a server action inside a hook — wire actions to components via form `action` props or event handlers (see `data-loading.md`)

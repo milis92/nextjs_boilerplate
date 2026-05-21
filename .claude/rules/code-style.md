@@ -13,12 +13,32 @@ paths:
 - Use `type` for union, intersection, and mapped types. Use `interface` for object shapes that may be extended. No `I`
   prefix on interfaces.
 
+### Server Component props
+
+Always type `params` and `searchParams` as `Promise<…>` in Next.js 15+ page and layout components. Define a `Props` type alias:
+
+```tsx
+type Props = {
+  params: Promise<{ locale: string }>
+  searchParams: Promise<Record<string, string>>
+}
+```
+
+Omit `params` and `searchParams` entirely when the component doesn't use them.
+
 ## Import Style
 
 - Use `import type` for type-only imports; use inline `type` when the same module exports values and types.
-- Use the `@/` path alias for any import that crosses a feature boundary — anything in `src/lib/`, `src/components/`, or another feature's `_module/`.
-- Use relative `./` imports within the same route folder (e.g. `page.tsx` → `./_module/`) or between files inside the same feature's `_module/` tree.
-- Within a `_module/` tree, relative paths may go up at most one level (e.g. `../hooks/use-foo` from `_module/components/`). Any path that would leave `_module/` uses `@/` instead.
+- Use the `@/` path alias for any import that crosses a route boundary — anything in `src/lib/`, `src/components/`, a parent group's `_components/`/`_hooks/`/`_actions/`, or another feature entirely.
+- Use relative `./` imports within the same co-located folder (e.g. `page.tsx` → `./_components/`, or files within the same `_components/` tree).
+- Relative paths may go up at most one level within co-located directories (e.g. `../_hooks/use-foo` from `_components/`). Any path that would leave the route's co-located directories uses `@/` instead.
+
+## Client Components
+
+- Add `"use client"` only when a component uses browser APIs, event handlers, or React hooks (`useState`, `useEffect`, `useContext`)
+- Push `"use client"` as deep in the tree as possible — leaf components, not wrappers
+- `page.tsx`, `layout.tsx`, `route.ts`, and `*.actions.ts` files are server-side by default — never add `"use client"` to them
+- `error.tsx` and `global-error.tsx` are exceptions — Next.js requires them to be Client Components
 
 ## Exports
 
@@ -48,8 +68,10 @@ Use `//` inline only when the logic is non-obvious — explain **why**, not **wh
 | Config/singleton object constant                       | PascalCase              | `Env`, `AppConfig`                          |
 | Variable, function, method, parameter                  | camelCase               | `findById`, `accessToken`                   |
 | Other module-level constant (instance, utility)        | camelCase               | `graphqlClient`, `buttonVariants`           |
-| File (lib, hooks, actions)                             | `kebab-name.type.ts(x)` | `theme.provider.tsx`, `auth.client.ts`      |
-| File (feature component in `_module/components/`)      | `kebab-name.tsx`        | `login-form.tsx`, `auth-login-page.tsx`     |
+| File (lib, hooks, actions)                             | `kebab-name.type.ts(x)` | `theme.provider.tsx`, `auth.actions.ts`     |
+| File (server actions in `_actions/`)                   | `<name>.actions.ts`     | `auth.actions.ts`, `billing.actions.ts`     |
+| File (hooks in `_hooks/` or `src/hooks/`)              | `use-<name>.ts(x)`      | `use-session.ts`, `use-profile.ts`          |
+| File (feature component in `_components/`)             | `kebab-name.tsx`        | `login-form.tsx`, `auth-login-page.tsx`     |
 | Boolean variable or method                             | `is`/`has`/`can` prefix | `isActive`, `hasPermission`                 |
 
 ## Anti-patterns
