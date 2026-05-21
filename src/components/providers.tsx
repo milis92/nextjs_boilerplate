@@ -2,7 +2,7 @@
 
 import { Provider as UrqlProvider } from "urql"
 import { ThemeProvider } from "@/components/theme.provider"
-import { graphqlClient } from "@/lib/graphql.client"
+import { graphqlClient } from "@/lib/graphql/client"
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
