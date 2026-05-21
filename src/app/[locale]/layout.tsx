@@ -1,5 +1,5 @@
 import { hasLocale } from "next-intl"
-import { getMessages, setRequestLocale } from "next-intl/server"
+import { setRequestLocale } from "next-intl/server"
 import { notFound } from "next/navigation"
 import { Geist, Geist_Mono, Roboto } from "next/font/google"
 import { NextIntlClientProvider } from "next-intl"
@@ -31,8 +31,6 @@ export default async function LocaleLayout({
 
   setRequestLocale(locale)
 
-  const messages = await getMessages()
-
   return (
     <html
       lang={locale}
@@ -46,7 +44,7 @@ export default async function LocaleLayout({
       )}
     >
       <body>
-        <NextIntlClientProvider locale={locale} messages={messages}>
+        <NextIntlClientProvider locale={locale}>
           <Providers>{children}</Providers>
         </NextIntlClientProvider>
       </body>
