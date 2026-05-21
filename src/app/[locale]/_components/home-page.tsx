@@ -1,12 +1,6 @@
-"use client"
-
 import { useTranslations } from "next-intl"
 import { Button } from "@/components/ui/button"
 
-/**
- * Home page component — displays the landing content with welcome message,
- * getting started instructions, and dark mode toggle hint.
- */
 export function HomePage() {
   const t = useTranslations("Home")
 
