@@ -2,7 +2,8 @@ import type { CodegenConfig } from "@graphql-codegen/cli"
 
 const config: CodegenConfig = {
   overwrite: true,
-  schema: process.env.NEXT_PUBLIC_GRAPHQL_URL ?? "http://localhost:3001/graphql",
+  schema:
+    process.env.NEXT_PUBLIC_GRAPHQL_URL ?? "http://localhost:3001/graphql",
   documents: [
     "src/app/**/*.{ts,tsx}",
     "src/components/**/*.{ts,tsx}",
@@ -10,7 +11,7 @@ const config: CodegenConfig = {
   ],
   ignoreNoDocuments: true,
   generates: {
-    "./src/lib/gql/": {
+    "./src/lib/graphql/generated/": {
       preset: "client",
       config: {
         useTypeImports: true,

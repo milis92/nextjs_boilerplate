@@ -39,6 +39,6 @@ Always start new components at route-private; escalate when a second consumer ap
 
 ## Anti-patterns
 
-- NEVER import directly from `src/lib/graphql/` or `src/lib/rest/generated/` — use `@/lib/rest/client` and urql hooks
+- NEVER import directly from `src/lib/graphql/generated/` or `src/lib/rest/generated/` — use `@/lib/rest/client` and urql hooks
 - NEVER call server actions inline in JSX — import them from `_actions/` and wire via a form or handler
 - NEVER generate shadcn/ui components with a style other than `radix-nova`

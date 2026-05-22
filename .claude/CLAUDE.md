@@ -1,6 +1,6 @@
 # Next.js Frontend Boilerplate — Agent Guide
 
-This is a Next.js 16.2 frontend boilerplate paired with the [NestJS boilerplate](https://github.com/milis92/nestjs-boilerplate). Read this file before writing any code.
+This is a Next.js 16.2 frontend boilerplate.
 
 ## Tech Stack
 
@@ -15,9 +15,8 @@ This is a Next.js 16.2 frontend boilerplate paired with the [NestJS boilerplate]
 
 ## Documentation
 
-Version-matched Next.js documentation is bundled in this repo. Read it before working with Next.js APIs — it matches the exact version installed.
-
-@node_modules/next/dist/docs/index.md
+!IMPORTANT Before any Next.js work, find and read the relevant doc in `node_modules/next/dist/docs/`.
+Your training data is outdated — the docs are the source of truth.
 
 ## Commands
 
@@ -39,7 +38,7 @@ pnpm test:e2e               # Playwright E2E tests
 
 # Code Generation (run before consuming new endpoints)
 pnpm rest:generate          # Generate REST types from OpenAPI spec → src/lib/rest/generated/api.ts
-pnpm graphql:generate       # Generate GraphQL types from schema → src/lib/graphql/
+pnpm graphql:generate       # Generate GraphQL types from schema → src/lib/graphql/generated/
 
 # Maintenance
 pnpm check:deps             # Detect unused dependencies (knip)
@@ -65,6 +64,6 @@ pnpm dev                    # Frontend starts on http://localhost:3000
 
 1. Ensure the NestJS backend is running
 2. Run the relevant generate command:
-    - REST endpoint: `pnpm rest:generate`
-    - GraphQL operation: `pnpm graphql:generate`
+   - REST endpoint: `pnpm rest:generate`
+   - GraphQL operation: `pnpm graphql:generate`
 3. Only then write the consuming code

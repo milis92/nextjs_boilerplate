@@ -36,7 +36,8 @@ src/
 │   │   ├── client.ts                          # openapi-fetch typed REST client
 │   │   └── generated/api.ts                   # Generated from OpenAPI spec — do not edit
 │   └── graphql/
-│       └── client.ts                          # urql GraphQL client
+│       ├── client.ts                          # urql GraphQL client
+│       └── generated/                         # Generated from GraphQL schema — do not edit
 ├── i18n/                                      # next-intl config and locale messages
 ├── styles/
 ├── app.config.ts                              # App-level config (name, i18n locales)
