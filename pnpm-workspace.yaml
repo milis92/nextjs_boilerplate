@@ -1,0 +1,76 @@
+# npm security best practices
+# Source: https://github.com/lirantal/npm-security-best-practices
+
+# SECURITY: block packages newer than 30 days (43200 minutes)
+minimumReleaseAge: 43200
+
+# SECURITY: override vulnerable transitive dependencies
+overrides:
+  # HIGH CVEs
+  "fast-uri@<3.1.2": "3.1.2" # path traversal + host confusion — via shadcn>@modelcontextprotocol/sdk>ajv
+  "kysely@>=0.26.0 <0.28.17": "0.28.17" # JSON-path injection — via better-auth>@better-auth/core
+  # Moderate CVEs
+  "hono@<4.12.18": "4.12.18" # CSS injection, cache bypass, bodyLimit bypass — via shadcn>@modelcontextprotocol/sdk
+  "ip-address@<10.1.1": "10.1.1" # XSS in HTML-emitting methods — via shadcn>@modelcontextprotocol/sdk>express-rate-limit
+  "brace-expansion@>=5.0.0 <5.0.6": "5.0.6" # large numeric range ReDoS — via shadcn>ts-morph>minimatch
+  "ws@<8.20.1": "8.20.1" # uninitialized memory disclosure — via graphql-ws and urql
+  "qs@<6.15.2": "6.15.2" # DoS via null entries in comma-format arrays — transitive
+  "postcss@<8.5.10": "8.5.10" # XSS via unescaped </style> — via better-auth>next
+
+# Security upgrades newer than 30 days — direct dep upgrades and CVE overrides; reviewed and safe
+minimumReleaseAgeExclude:
+  # next@16.2.6 — security upgrade (10 HIGH CVEs: middleware bypass, DoS, SSRF, XSS)
+  - "next@16.2.6"
+  - "@next/env@16.2.6"
+  - "@next/eslint-plugin-next@16.2.6"
+  - "@next/swc-darwin-arm64@16.2.6"
+  - "@next/swc-darwin-x64@16.2.6"
+  - "@next/swc-linux-arm64-gnu@16.2.6"
+  - "@next/swc-linux-arm64-musl@16.2.6"
+  - "@next/swc-linux-x64-gnu@16.2.6"
+  - "@next/swc-linux-x64-musl@16.2.6"
+  - "@next/swc-win32-arm64-msvc@16.2.6"
+  - "@next/swc-win32-x64-msvc@16.2.6"
+  - "eslint-config-next@16.2.6"
+  # next-intl@4.9.2 — security upgrade (prototype pollution CVE)
+  - "next-intl@4.9.2"
+  - "icu-minify@4.9.2"
+  - "next-intl-swc-plugin-extractor@4.9.2"
+  - "use-intl@4.9.2"
+  # CVE overrides — forced via pnpm-workspace.yaml overrides; reviewed and safe
+  - "fast-uri@3.1.2"
+  - "kysely@0.28.17"
+  - "hono@4.12.18"
+  - "ip-address@10.1.1"
+  - "brace-expansion@5.0.6"
+  - "ws@8.20.1"
+  - "qs@6.15.2"
+  - "postcss@8.5.10"
+
+# SECURITY: reject a version whose publishing trust signals regressed
+trustPolicy: no-downgrade
+
+# Verified maintainer changes that triggered the trust flag
+trustPolicyExclude:
+  # Legitimate ownership transfer: isaacs → GitHub npm CLI team (~2022), lukekarrys is a GitHub employee
+  - "semver@6.3.1"
+  # Maintainer key rotation on eslint-import-resolver-typescript; same repo, no code changes
+  - "eslint-import-resolver-typescript@3.10.1"
+
+# All build scripts below are explicitly blocked. Verified safe: prebuilt binaries
+# ship as optional deps, or the root prepare script handles hook installation.
+allowBuilds:
+  "@parcel/watcher": false # — postinstall validates native binding; binary ships in @parcel/watcher-linux-x64-glibc optional dep.
+  "@swc/core": false # — postinstall validates native binding; binary ships in @swc/core-linux-x64-gnu optional dep.
+  esbuild: false # — postinstall validates binary; actual binary ships in @esbuild/linux-x64 optional dep.
+  lefthook: false # — postinstall runs 'lefthook install'; root prepare script does the same.
+  msw: false # — no-op postinstall that catches and silently ignores all errors.
+  sharp: false # — postinstall validates native binding; actual binary ships in @img/sharp-linux-x64 optional dep.
+  unrs-resolver: false # — napi-postinstall checks binding; binary ships in @unrs/resolver-binding-linux-x64-gnu optional dep.
+
+# SECURITY: fail the install if a dependency wants to run a build script
+# that isn't in the allow-list above
+strictDepBuilds: true
+
+# SECURITY: reject dependencies sourced from git URLs
+blockExoticSubdeps: true
