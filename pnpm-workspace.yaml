@@ -1,6 +1,9 @@
 # npm security best practices
 # Source: https://github.com/lirantal/npm-security-best-practices
 
+# Pin exact versions on install (pnpm equivalent of npm's save-exact)
+savePrefix: ''
+
 # SECURITY: block packages newer than 30 days (43200 minutes)
 minimumReleaseAge: 43200
 
