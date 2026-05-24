@@ -1,8 +1,18 @@
 # Validate content before committing
 pre-commit:
   jobs:
+    - name: format
+      run: pnpm exec prettier --write {staged_files}
+      glob:
+        - '**/*.js'
+        - '**/*.jsx'
+        - '**/*.ts'
+        - '**/*.tsx'
+        - '**/*.mts'
+        - '**/*.mjs'
+      stage_fixed: true
     - name: lint
-      run: pnpm exec eslint {staged_files}
+      run: pnpm exec eslint --max-warnings 0 {staged_files}
       glob:
         - '**/*.js'
         - '**/*.jsx'
