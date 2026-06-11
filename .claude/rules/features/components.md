@@ -28,7 +28,7 @@ Always start new components at route-private; escalate when a second consumer ap
 
 ## shadcn/ui
 
-- Keep shadcn/ui primitives in `src/components/ui/` — add new ones with `pnpm dlx shadcn@latest add <component>`
+- Keep shadcn/ui primitives in `src/components/ui/` — add new ones with `pnpm shadcn add <component>` (shadcn is a pinned devDependency; `pnpm dlx` is deny-listed in `.claude/settings.json`)
 - Use `cn()` from `@/components/ui/cn`
 - Push `"use client"` as deep in the tree as possible — leaf components, not wrappers
 

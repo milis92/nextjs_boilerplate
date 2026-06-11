@@ -2,7 +2,7 @@
 # Source: https://github.com/lirantal/npm-security-best-practices
 
 # Pin exact versions on install (pnpm equivalent of npm's save-exact)
-savePrefix: ''
+savePrefix: ""
 
 # SECURITY: block packages newer than 30 days (43200 minutes)
 minimumReleaseAge: 43200
@@ -61,12 +61,13 @@ trustPolicyExclude:
   - "eslint-import-resolver-typescript@3.10.1"
 
 # All build scripts below are explicitly blocked. Verified safe: prebuilt binaries
-# ship as optional deps, or the root prepare script handles hook installation.
+# ship as optional deps, or manual `pnpm prepare` handles hook installation
+# (ignore-scripts=true also disables the root prepare lifecycle script).
 allowBuilds:
   "@parcel/watcher": false # — postinstall validates native binding; binary ships in @parcel/watcher-linux-x64-glibc optional dep.
   "@swc/core": false # — postinstall validates native binding; binary ships in @swc/core-linux-x64-gnu optional dep.
   esbuild: false # — postinstall validates binary; actual binary ships in @esbuild/linux-x64 optional dep.
-  lefthook: false # — postinstall runs 'lefthook install'; root prepare script does the same.
+  lefthook: false # — postinstall runs 'lefthook install'; manual `pnpm prepare` does the same.
   msw: false # — no-op postinstall that catches and silently ignores all errors.
   sharp: false # — postinstall validates native binding; actual binary ships in @img/sharp-linux-x64 optional dep.
   unrs-resolver: false # — napi-postinstall checks binding; binary ships in @unrs/resolver-binding-linux-x64-gnu optional dep.

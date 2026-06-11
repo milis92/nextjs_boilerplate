@@ -4,7 +4,7 @@
     // Language & Environment
     // Defines JavaScript version and runtime environment
     // ======================================================================
-    "target": "ES2017",
+    "target": "ES2022",
     "module": "esnext",
     "lib": ["dom", "dom.iterable", "esnext"],
     "moduleResolution": "bundler",
@@ -45,8 +45,6 @@
     // Settings that affect compilation output and build performance
     // ======================================================================
     "skipLibCheck": true,
-    "removeComments": true,
-    "preserveConstEnums": true,
     "forceConsistentCasingInFileNames": true,
     // ======================================================================
     // Project Structure
@@ -77,6 +75,7 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
-    "**/*.mts"
+    "**/*.mts",
+    ".next/dev/dev/types/**/*.ts"
   ]
 }

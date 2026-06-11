@@ -42,16 +42,20 @@ pnpm-debug.log*
 .env
 .env.*
 !.env.example
+# Committed test defaults (see playwright.config.ts / vitest.config.mts).
+# Secrets go in .env.test.local — gitignored via .env.* above, loaded as an
+# optional overlay that overrides .env.test.
+!.env.test
 
 # typescript
 *.tsbuildinfo
 next-env.d.ts
 
 # generated graphql client
-/src/lib/gql/
+/src/lib/graphql/generated/
 
 # generated REST client
-/src/lib/rest/
+/src/lib/rest/generated/
 
 # git worktrees
 /.worktrees/

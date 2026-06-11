@@ -1,6 +1,6 @@
 {
-  "Common": {
-    "appName": "nextjs_boilerplate"
+  "Metadata": {
+    "description": "A production-ready Next.js starter with i18n, theming, and a typed API layer."
   },
   "Home": {
     "ready": "Project ready!",
@@ -8,5 +8,23 @@
     "buttonAdded": "We've already added the button component for you.",
     "button": "Button",
     "toggleDarkMode": "Press <key>D</key> to toggle dark mode"
+  },
+  "Theme": {
+    "toggle": "Toggle theme",
+    "light": "Light theme enabled",
+    "dark": "Dark theme enabled"
+  },
+  "Error": {
+    "title": "Something went wrong",
+    "description": "An unexpected error occurred.",
+    "retry": "Try again"
+  },
+  "NotFound": {
+    "title": "Page not found",
+    "description": "The page you're looking for doesn't exist.",
+    "home": "Back to home"
+  },
+  "Loading": {
+    "label": "Loading…"
   }
 }

@@ -1,21 +1,11 @@
-"use client"
+import Link from "next/link"
 
-import { useEffect } from "react"
-
-export default function GlobalError({
-  error,
-  unstable_retry,
-}: {
-  error: Error & { digest?: string }
-  unstable_retry: () => void
-}) {
-  useEffect(() => {
-    // Next.js logs the full error server-side (correlated by `error.digest`) and
-    // passes only a sanitized error to the client. Wire a client error-reporting
-    // SDK (e.g. Sentry) here to capture client-side context.
-    console.error(error)
-  }, [error])
-
+// Renders for `notFound()` thrown in the locale layout itself (e.g. an unknown
+// locale, which bubbles above `[locale]`) and for non-localized unmatched paths.
+// It sits outside the locale layout, so — like global-error.tsx — it supplies
+// its own <html>/<body> and inline styles and uses a fixed language. Localized
+// 404s for known locales come from [locale]/not-found.tsx via the catch-all.
+export default function NotFound() {
   return (
     <html lang="en">
       <body
@@ -33,13 +23,13 @@ export default function GlobalError({
         }}
       >
         <h1 style={{ fontSize: "1.5rem", fontWeight: 600, margin: 0 }}>
-          Something went wrong
+          Page not found
         </h1>
         <p style={{ fontSize: "0.875rem", color: "#71717a", margin: 0 }}>
-          An unexpected error occurred.
+          The page you&apos;re looking for doesn&apos;t exist.
         </p>
-        <button
-          onClick={unstable_retry}
+        <Link
+          href="/"
           style={{
             padding: "0.5rem 1rem",
             borderRadius: "0.375rem",
@@ -47,12 +37,11 @@ export default function GlobalError({
             color: "#fafafa",
             fontSize: "0.875rem",
             fontWeight: 500,
-            border: "none",
-            cursor: "pointer",
+            textDecoration: "none",
           }}
         >
-          Try again
-        </button>
+          Back to home
+        </Link>
       </body>
     </html>
   )

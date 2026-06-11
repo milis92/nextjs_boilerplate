@@ -1,11 +1,18 @@
 import { defineConfig, devices } from "@playwright/test"
+import * as dotenv from "@dotenvx/dotenvx"
 
-// Use process.env.PORT by default and fallback to port 3008
-// to avoid conflicts with the Next.js default port 3000.
-const PORT = process.env.PORT ?? "3008"
-
-// Set webServer.url and use.baseURL with the location of the WebServer respecting the correct set port
-const baseURL = `http://localhost:${PORT}`
+// .env.test.local is an optional gitignored overlay for secrets — first file wins.
+const ENV = dotenv.config({
+  path: [".env.test.local", ".env.test"],
+  ignore: ["MISSING_ENV_FILE"],
+  quiet: true,
+}).parsed
+if (!ENV?.NEXT_PUBLIC_APP_URL) {
+  throw new Error(
+    ".env.test is missing or incomplete (NEXT_PUBLIC_APP_URL is required). It is committed to the repo — restore it from git."
+  )
+}
+const APP_URL = ENV.NEXT_PUBLIC_APP_URL
 
 /**
  * See https://playwright.dev/docs/test-configuration.
@@ -30,30 +37,17 @@ export default defineConfig({
   // https://playwright.dev/docs/test-advanced#launching-a-development-web-server-during-the-tests
   webServer: {
     command: process.env.CI ? "pnpm start" : "pnpm dev",
-    url: baseURL,
+    url: APP_URL,
     timeout: 60 * 1000,
     reuseExistingServer: !process.env.CI,
     gracefulShutdown: { signal: "SIGTERM", timeout: 2 * 1000 },
-    env: {
-      NEXT_PUBLIC_REST_URL:
-        process.env.NEXT_PUBLIC_REST_URL ?? "http://localhost:3001",
-      NEXT_PUBLIC_GRAPHQL_URL:
-        process.env.NEXT_PUBLIC_GRAPHQL_URL ?? "http://localhost:3001/graphql",
-      NEXT_PUBLIC_GRAPHQL_WS_URL:
-        process.env.NEXT_PUBLIC_GRAPHQL_WS_URL ?? "ws://localhost:3001/graphql",
-      NEXT_PUBLIC_AUTH_URL:
-        process.env.NEXT_PUBLIC_AUTH_URL ?? "http://localhost:3001/api/auth",
-      NEXT_PUBLIC_APP_NAME:
-        process.env.NEXT_PUBLIC_APP_NAME ?? "Spend Dash",
-      PORT,
-    },
   },
 
   // Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions.
   use: {
     // Use baseURL so to make navigations relative.
     // More information: https://playwright.dev/docs/api/class-testoptions#test-options-base-url
-    baseURL,
+    baseURL: APP_URL,
 
     // Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer
     trace: process.env.CI ? "on" : "retain-on-failure",

@@ -8,8 +8,6 @@ export default function robots(): MetadataRoute.Robots {
       userAgent: "*",
       allow: "/",
     },
-    ...(Env.NEXT_PUBLIC_APP_URL
-      ? { sitemap: `${Env.NEXT_PUBLIC_APP_URL}/sitemap.xml` }
-      : {}),
+    sitemap: `${Env.NEXT_PUBLIC_APP_URL}/sitemap.xml`,
   }
 }

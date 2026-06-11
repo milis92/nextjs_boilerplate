@@ -11,7 +11,7 @@ Add `"use client"` and satisfy Next.js's required prop contract — error bounda
 ## Conventions
 
 - !IMPORTANT Always use `unstable_retry: () => void` as the recovery prop (added in Next.js 16.2) — it re-fetches server data and re-renders the failed segment from scratch. Use `reset: () => void` only when you explicitly need to clear error state without a server round-trip.
-- Log errors in `useEffect` — wrap with `if (process.env.NODE_ENV === "development")` to avoid leaking details in production
+- Log errors in `useEffect` with an unconditional `console.error(error)` — this `useEffect` is the hook for a client error-reporting SDK (e.g. Sentry). Next.js sanitizes the client-facing error in production (only `error.digest` survives) and logs the full error server-side, so there is nothing sensitive to gate.
 
 ## global-error.tsx only
 

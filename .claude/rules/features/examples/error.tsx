@@ -10,9 +10,10 @@ export default function Error({
   unstable_retry: () => void
 }) {
   useEffect(() => {
-    if (process.env.NODE_ENV === "development") {
-      console.error(error)
-    }
+    // Next.js logs the full error server-side (correlated by `error.digest`) and
+    // passes only a sanitized error to the client. Wire a client error-reporting
+    // SDK (e.g. Sentry) here to capture client-side context.
+    console.error(error)
   }, [error])
 
   return (

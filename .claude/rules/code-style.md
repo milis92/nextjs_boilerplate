@@ -26,15 +26,17 @@ Follow these TypeScript, import, and naming rules in every source file — they 
 ## Naming Conventions
 
 | Thing                                                  | Convention              | Example                                     |
-|--------------------------------------------------------|-------------------------|---------------------------------------------|
+| ------------------------------------------------------ | ----------------------- | ------------------------------------------- |
 | Class, interface, type, enum, React component function | PascalCase              | `UserService`, `AuthToken`, `ThemeProvider` |
 | Config/singleton object constant                       | PascalCase              | `Env`, `AppConfig`                          |
 | Variable, function, method, parameter                  | camelCase               | `findById`, `accessToken`                   |
 | Other module-level constant (instance, utility)        | camelCase               | `graphqlClient`, `buttonVariants`           |
-| File (lib, hooks, actions)                             | `kebab-name.type.ts(x)` | `theme.provider.tsx`, `auth.actions.ts`     |
+| File (lib, providers, actions — NOT UI components)     | `kebab-name.type.ts(x)` | `theme.provider.tsx`, `auth.actions.ts`     |
 | File (server actions in `_actions/`)                   | `<name>.actions.ts`     | `auth.actions.ts`, `billing.actions.ts`     |
 | File (hooks in `_hooks/` or `src/hooks/`)              | `use-<name>.ts(x)`      | `use-session.ts`, `use-profile.ts`          |
 | File (feature component in `_components/`)             | `kebab-name.tsx`        | `login-form.tsx`, `auth-login-page.tsx`     |
 | Boolean variable or method                             | `is`/`has`/`can` prefix | `isActive`, `hasPermission`                 |
 
-Use named exports everywhere. Default exports are only permitted in Next.js reserved files: `page.tsx`, `layout.tsx`, `loading.tsx`, `error.tsx`, `not-found.tsx`, `route.ts`.
+The `.type` segment (`.provider`, `.actions`) is for non-component infrastructure files only. UI component files — anything in `_components/` or `src/components/` that renders markup — never take a type suffix (see `features/components.md`): `theme-toggle.tsx`, not `theme-toggle.component.tsx`.
+
+Use named exports everywhere. Default exports are only permitted in Next.js reserved files: `page.tsx`, `layout.tsx`, `loading.tsx`, `error.tsx`, `global-error.tsx`, `not-found.tsx`, `route.ts`, `sitemap.ts`, `robots.ts`, `opengraph-image.tsx`, `proxy.ts`.

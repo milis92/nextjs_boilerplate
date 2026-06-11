@@ -4,28 +4,9 @@ import { Env } from "@/lib/env"
 
 const isProd = Env.NODE_ENV === "production"
 
-const apiOrigin = new URL(Env.NEXT_PUBLIC_REST_URL).origin
-const wsOrigin = new URL(Env.NEXT_PUBLIC_GRAPHQL_WS_URL).origin
-
-// Next.js dev (Turbopack/HMR) requires `unsafe-inline` and `unsafe-eval`.
-// Production drops `unsafe-eval`; further nonce-based hardening is a TODO
-// once a nonce middleware is added.
-const scriptSrc = isProd
-  ? "script-src 'self' 'unsafe-inline'"
-  : "script-src 'self' 'unsafe-inline' 'unsafe-eval'"
-
-const csp = [
-  "default-src 'self'",
-  scriptSrc,
-  "style-src 'self' 'unsafe-inline'",
-  "img-src 'self' data: blob: https:",
-  "font-src 'self' data:",
-  `connect-src 'self' ${apiOrigin} ${wsOrigin}`,
-  "frame-ancestors 'none'",
-  "base-uri 'self'",
-  "form-action 'self'",
-].join("; ")
-
+// The Content-Security-Policy is set per-request in `src/proxy.ts` because it
+// needs a fresh nonce on every response (`script-src 'nonce-…' 'strict-dynamic'`).
+// Static headers that don't depend on the request stay here.
 const securityHeaders = [
   { key: "X-Content-Type-Options", value: "nosniff" },
   { key: "X-Frame-Options", value: "DENY" },
@@ -34,7 +15,6 @@ const securityHeaders = [
     key: "Permissions-Policy",
     value: "camera=(), microphone=(), geolocation=()",
   },
-  { key: "Content-Security-Policy", value: csp },
   ...(isProd
     ? [
         {
@@ -54,8 +34,9 @@ const baseConfig: NextConfig = {
   },
   poweredByHeader: false,
   reactStrictMode: true,
-  // Keep the development environment fast
-  reactCompiler: isProd,
+  // Enable in dev too so the compiler's transforms are exercised locally and in
+  // CI, not first encountered in the production build.
+  reactCompiler: true,
   async headers() {
     return [
       {

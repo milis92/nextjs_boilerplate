@@ -2,7 +2,7 @@
 
 import type { ComponentProps } from "react"
 import { ThemeProvider as NextThemesProvider } from "next-themes"
-import { ThemeHotkey } from "./theme-hotkey"
+import { ThemeHotkey } from "@/components/theme-hotkey"
 
 function ThemeProvider({
   children,

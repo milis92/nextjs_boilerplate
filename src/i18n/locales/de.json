@@ -1,6 +1,6 @@
 {
-  "Common": {
-    "appName": "nextjs_boilerplate"
+  "Metadata": {
+    "description": "Ein produktionsreifes Next.js-Starter-Kit mit i18n, Theming und einer typisierten API-Schicht."
   },
   "Home": {
     "ready": "Projekt bereit!",
@@ -8,5 +8,23 @@
     "buttonAdded": "Wir haben den Button bereits für dich hinzugefügt.",
     "button": "Button",
     "toggleDarkMode": "Drücke <key>D</key> für den Dunkelmodus"
+  },
+  "Theme": {
+    "toggle": "Theme umschalten",
+    "light": "Heller Modus aktiviert",
+    "dark": "Dunkler Modus aktiviert"
+  },
+  "Error": {
+    "title": "Etwas ist schiefgelaufen",
+    "description": "Ein unerwarteter Fehler ist aufgetreten.",
+    "retry": "Erneut versuchen"
+  },
+  "NotFound": {
+    "title": "Seite nicht gefunden",
+    "description": "Die gesuchte Seite existiert nicht.",
+    "home": "Zur Startseite"
+  },
+  "Loading": {
+    "label": "Wird geladen…"
   }
 }

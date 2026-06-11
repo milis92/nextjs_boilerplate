@@ -37,20 +37,52 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Format check
+        run: pnpm run format:check
+
       - name: Lint
         run: pnpm run lint:check
 
       - name: Type check
         run: pnpm run typecheck
 
+      - name: Dead code check
+        run: pnpm run check:deps
+
       - name: Unit tests
         run: pnpm test
 
       - name: Build
         run: pnpm build
+        # NEXT_PUBLIC_* vars are inlined at build time (see src/lib/env.ts).
+        # Keep these in sync with .env.test — the E2E step runs against this build.
+        env:
+          NEXT_PUBLIC_APP_NAME: "Nextjs Boilerplate"
+          NEXT_PUBLIC_APP_URL: http://localhost:3000
+          NEXT_PUBLIC_REST_URL: http://localhost:3001
+          NEXT_PUBLIC_GRAPHQL_URL: http://localhost:3001/graphql
+          NEXT_PUBLIC_GRAPHQL_WS_URL: ws://localhost:3001/graphql
+          NEXT_PUBLIC_AUTH_URL: http://localhost:3001/api/auth
+
+      - name: Get Playwright version
+        id: playwright-version
+        run: echo "version=$(node -p "require('@playwright/test/package.json').version")" >> "$GITHUB_OUTPUT"
+
+      - name: Cache Playwright browsers
+        id: playwright-cache
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ steps.playwright-version.outputs.version }}
 
       - name: Install Playwright browsers
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
         run: pnpm exec playwright install --with-deps chromium firefox
+
+      # Browsers are cached, but OS-level dependencies are not.
+      - name: Install Playwright OS dependencies
+        if: steps.playwright-cache.outputs.cache-hit == 'true'
+        run: pnpm exec playwright install-deps chromium firefox
 
       - name: E2E tests
         run: pnpm test:e2e

@@ -23,7 +23,6 @@ src/
 │               ├── _components/               # Private to this route
 │               ├── _hooks/                    # Private to this route
 │               └── _actions/                  # Private to this route
-├── actions/                                   # Server actions shared across 2+ route groups
 ├── components/                                # Shared across 2+ features
 │   ├── ui/                                    # shadcn/ui primitives — do not edit
 │   └── providers/                             # App-level React context and bootstrap
@@ -41,7 +40,7 @@ src/
 ├── i18n/                                      # next-intl config and locale messages
 ├── styles/
 ├── app.config.ts                              # App-level config (name, i18n locales)
-└── middleware.ts
+└── proxy.ts                                   # Request interception — Next 16 renamed middleware.ts to proxy.ts
 ```
 
 !IMPORTANT Never create folders inside `app/` without the `_` prefix unless they are route segments — they will become routes.

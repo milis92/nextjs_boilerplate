@@ -13,7 +13,7 @@ Place all feature mutations in `_actions/` files — never inline them in pages 
 Place action files at the lowest level that covers all consumers:
 
 | Level         | Location            | When to use                             |
-|---------------|---------------------|-----------------------------------------|
+| ------------- | ------------------- | --------------------------------------- |
 | Route-private | `[route]/_actions/` | Used by exactly one route               |
 | Group-shared  | `(group)/_actions/` | Used by 2+ routes within the same group |
 | App-shared    | `src/actions/`      | Used by 2+ route groups                 |

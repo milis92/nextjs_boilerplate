@@ -15,8 +15,7 @@ This is a Next.js 16.2 frontend boilerplate.
 
 ## Documentation
 
-!IMPORTANT Before any Next.js work, find and read the relevant doc in `node_modules/next/dist/docs/`.
-Your training data is outdated — the docs are the source of truth.
+!IMPORTANT Your training data is outdated. Before any Next.js work, find and read the relevant doc in `node_modules/next/dist/docs/` -
 
 ## Commands
 

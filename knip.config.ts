@@ -11,11 +11,13 @@ const config: KnipConfig = {
     "codegen.graphql.ts",
   ],
   ignoreDependencies: [
-    "@eslint/eslintrc",
+    // CLI invoked directly (configured via portless.json), not imported anywhere
+    "portless",
+    // Render helper for the vitest browser ("ui") project — only imported by
+    // src/**/*.test.tsx files, none of which exist yet in the boilerplate
     "vitest-browser-react",
-    "better-auth",
+    "@eslint/eslintrc",
     "openapi-fetch",
-    "lucide-react",
     "@graphql-codegen/client-preset",
   ],
   compilers: {
