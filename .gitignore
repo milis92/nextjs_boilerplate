@@ -54,8 +54,5 @@ next-env.d.ts
 # generated graphql client
 /src/lib/graphql/generated/
 
-# generated REST client
-/src/lib/rest/generated/
-
 # git worktrees
 /.worktrees/
