@@ -6,6 +6,7 @@ const config: KnipConfig = {
     "src/components/ui/**",
     "src/lib/auth/client.ts",
     "src/lib/rest/client.ts",
+    "src/lib/rest/generated/**",
     "src/i18n/i18n.ts",
     "src/i18n/i18n-navigation.ts",
     "codegen.graphql.ts",

@@ -40,6 +40,18 @@ minimumReleaseAgeExclude:
   - "icu-minify@4.9.2"
   - "next-intl-swc-plugin-extractor@4.9.2"
   - "use-intl@4.9.2"
+  # shell-quote@1.8.4 — security upgrade (critical CVE: quote() does not escape newlines) — via @graphql-codegen/cli
+  - "shell-quote@1.8.4"
+  # better-auth@1.6.11 — security upgrade (high CVE: device authorization accepts any session)
+  - "better-auth@1.6.11"
+  - "@better-auth/core@1.6.11"
+  - "@better-auth/drizzle-adapter@1.6.11"
+  - "@better-auth/kysely-adapter@1.6.11"
+  - "@better-auth/memory-adapter@1.6.11"
+  - "@better-auth/mongo-adapter@1.6.11"
+  - "@better-auth/prisma-adapter@1.6.11"
+  - "@better-auth/telemetry@1.6.11"
+  - "@opentelemetry/semantic-conventions@1.41.1"
   # CVE overrides — forced via pnpm-workspace.yaml overrides; reviewed and safe
   - "fast-uri@3.1.2"
   - "kysely@0.28.17"
